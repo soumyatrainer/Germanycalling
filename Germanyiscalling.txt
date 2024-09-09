@@ -1,0 +1,107 @@
+Test 1: Successful Login
+
+Test Script (Using Selenium & Java):
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+     System.setProperty("webdriver.chrome.driver", "C:\\Soumya_Selenium\\Drivers\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+    }
+
+    @Test
+    public void testSuccessfulLogin() {
+     driver.get("https://app.germanyiscalling.com/common/login/?next=https%3A%2F%2Fapp.germanyiscalling.com%2Fcv%2Fhome%2F");
+
+        driver.findElement(By.id("email")).sendKeys("soumyasahoo5152@example.com");
+        driver.findElement(By.id("password")).sendKeys("Soumya@123");
+        driver.findElement(By.id("loginButton")).click();
+
+        String expectedUrl = "https://app.germanyiscalling.comlanding-page";
+        String actualUrl = driver.getCurrentUrl();
+        Assert.assertEquals(actualUrl, expectedUrl, "Redirection to landing page failed after successful login.");
+    }
+
+    @AfterTest
+    public void teardown() {
+        // Close the browser
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+
+
+
+Test 2: Unsuccessful Login
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class LoginTest {
+    WebDriver driver;
+
+    @BeforeTest
+    public void setup() {
+      
+        System.setProperty("webdriver.chrome.driver", "C:\\Soumya_Selenium\\Drivers\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+    }
+
+    @Test
+    public void testUnsuccessfulLogin() {
+       
+     driver.get("https://app.germanyiscalling.com/common/login/?next=https%3A%2F%2Fapp.germanyiscalling.com%2Fcv%2Fhome%2F"");
+
+      
+        driver.findElement(By.id("email")).sendKeys("soumyasahoo@example.com");
+        driver.findElement(By.id("password")).sendKeys("sahoo#123");
+
+        driver.findElement(By.id("loginButton")).click();
+
+        String expectedErrorMessage = "Invalid email or password.";
+        String actualErrorMessage = driver.findElement(By.id("errorMessage")).getText();
+        Assert.assertEquals(actualErrorMessage, expectedErrorMessage, "Error message for unsuccessful login is incorrect.");
+    }
+
+    @AfterTest
+    public void teardown() {
+        // Close the browser
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+
+
+
+3.Test Report
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Login Tests">
+    <test name="Login Functionality">
+        <classes>
+            <class name="com.germaniscalling.tests.LoginTests"/>
+        </classes>
+    </test>
+</suite>
